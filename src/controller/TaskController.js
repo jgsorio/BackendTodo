@@ -13,7 +13,7 @@ const currentDate = new Date();
 class TaskController {
 
     async all(req, res) {
-        await Task.find({ 'macaddress': { '$eq': req.body.macaddress }})
+        await Task.find({ 'macaddress': { '$eq': req.params.macaddress }})
         .sort({'when': 'desc'})
         .then(data => {
             return res.status(200).json(data);
@@ -67,7 +67,7 @@ class TaskController {
     async late(req, res) {
         await Task.find({ 
             'when': { '$lt': currentDate },
-            'macaddress': { '$eq': req.body.macaddress }
+            'macaddress': { '$eq': req.params.macaddress }
         })
         .sort({ 'when': 'desc' })
         .then(data => {
@@ -81,7 +81,7 @@ class TaskController {
     //Tarefas do Dia
     async today(req, res) {
         await Task.find({
-            'macaddress': {'$eq': req.body.macaddress},
+            'macaddress': {'$eq': req.params.macaddress},
             'when': { 
                 '$lt': endOfDay(currentDate),
                 '$gt': startOfDay(currentDate)
@@ -99,7 +99,7 @@ class TaskController {
     //Tarefas da Semana
     async week(req, res) {
         await Task.find({
-            'macaddress': {'$eq': req.body.macaddress},
+            'macaddress': {'$eq': req.params.macaddress},
             'when': { 
                 '$lt': endOfWeek(currentDate),
                 '$gt': startOfWeek(currentDate)
@@ -117,7 +117,7 @@ class TaskController {
     //Tarefas do Mes
     async month(req, res) {
         await Task.find({
-            'macaddress': {'$eq': req.body.macaddress},
+            'macaddress': {'$eq': req.params.macaddress},
             'when': { 
                 '$lt': endOfMonth(currentDate),
                 '$gt': startOfMonth(currentDate)
@@ -135,7 +135,7 @@ class TaskController {
     //Tarefas do Ano
     async year(req, res) {
         await Task.find({
-            'macaddress': {'$eq': req.body.macaddress},
+            'macaddress': {'$eq': req.params.macaddress},
             'when': { 
                 '$lt': endOfYear(currentDate),
                 '$gt': startOfYear(currentDate)
